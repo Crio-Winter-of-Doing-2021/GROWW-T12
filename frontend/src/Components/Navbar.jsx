@@ -20,9 +20,9 @@ function Navbar() {
             <ul className='menu'>
                 <li><a href='#stocks'>Stocks</a></li>
                 <li><a href='#mutual-funds'>Mutual Funds</a></li>
-                <li><a href='#'>Fixed Deposits</a></li>
-                <li><a href='#'>Gold</a></li>
-                <li><a href='#'>US Stocks</a></li>
+                <li><a href='#fixed-deposits'>Fixed Deposits</a></li>
+                <li><a href='#gold'>Gold</a></li>
+                <li><a href='#us-stocks'>US Stocks</a></li>
             </ul>
         </nav>
     )
