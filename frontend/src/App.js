@@ -10,6 +10,7 @@ import fdImage from './images/FDs.png';
 import goldImage from './images/gold.png';
 import usStocksImage from './images/usstocks.png';
 
+import Chatbot from './Components/ChatWidget';
 function App() {
   return (
     <div className="App">
@@ -30,6 +31,7 @@ function App() {
         displayText='Invest in Apple, Google, Netflix and many more US companies that you love without any brokerage fee.'
         button='Explore US Stocks' />
       <Footer />
+      <Chatbot />
     </div>
   );
 }
