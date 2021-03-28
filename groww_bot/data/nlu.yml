@@ -1,92 +1,175 @@
 version: "2.0"
 
 nlu:
-- intent: greet
-  examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
 
-- intent: goodbye
-  examples: |
-    - good afternoon
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
+  - intent: goodbye
+    examples: |
+      - good afternoon
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
 
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
 
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
 
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
 
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
 
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
+
+  - intent: query_stocks
+    examples: |
+      - I have a query about Stocks
+      - I would like to know about Stocks
+      - Can you help me with stocks
+      - Please show faqs on Stocks
+      - Stocks
+      - stocks
+      - I need some help with Stocks
+
+  - intent: query_mutual_funds
+    examples: |
+      - I have a query about Mutual Funds
+      - I would like to know about Mutual Funds
+      - Can you help me with Mutual Funds
+      - Please show faqs on Mutual Funds
+      - Mutual Funds
+      - mutual funds
+      - I need some help with Mutual Funds
+
+  - intent: query_holdings
+    examples: |
+      - I have a query about Holdings
+      - I would like to know about Holdings
+      - Can you help me with Holdings
+      - Please show faqs on Holdings
+      - Holdings
+      - holdings
+      - I need some help with Holdings
+      - SX_DASHBOARD
+
+  - intent: query_ipo
+    examples: |
+      - I have a query about IPO
+      - I would like to know about IPO
+      - Can you help me with IPO
+      - Please show faqs on IPO
+      - IPO
+      - ipo
+      - I need some help with IPO
+      - SX_IPO
+
+  - intent: query_questionTag_intraday_positions
+    examples: |
+      - I have a query about Intraday Positions
+      - I would like to know about Intraday Positions
+      - Can you help me with Intraday Positions
+      - Please show faqs on Intraday Positions
+      - Intraday Positions
+      - intraday positions
+      - I need some help with Intraday Positions
+
+  - intent: query_questionTag_holdings
+    examples: |
+      - Holdings questionTag
+      - questionTag holdings
+
+  - intent: query_questionTag_delivery_positions
+    examples: |
+      - I have a query about Delivery Positions
+      - I would like to know about Delivery Positions
+      - Can you help me with Delivery Positions
+      - Please show faqs on Delivery Positions
+      - Delivery Positions
+      - delivery positions
+      - I need some help with Delivery Positions
+
+  - intent: query-question-my-issue-is-not-listed-here
+    examples: |
+      - My issue is not listed here
+      - issue not listed
+      - you didn't resolve my issue
+      - I still have a question
+      - I'm still facing some problem
+
+  - intent: query-question-what-happens-if-i-dont-exit-my-position
+    examples: |
+      - What happens if I don't exit my position?
+      - What if I do not exit my position?
+      - What will be the affect of me not exiting my postion?
+      - I did not exit my position, what will happen?
+      - What in case I dont exit the position?
