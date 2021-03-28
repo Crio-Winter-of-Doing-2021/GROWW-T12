@@ -129,7 +129,10 @@ nav .menu-btn,
 }
 
 #stocks,
-#mutual-funds {
+#mutual-funds,
+#fixed-deposits,
+#gold,
+#us-stocks {
   margin-top: 100px;
   width: 100%;
   height: 120vh;
