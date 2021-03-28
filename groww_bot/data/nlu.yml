@@ -165,6 +165,8 @@ nlu:
       - you didn't resolve my issue
       - I still have a question
       - I'm still facing some problem
+      - I'm not finding the answer
+      - I didn't get a proper solution
 
   - intent: query-question-what-happens-if-i-dont-exit-my-position
     examples: |
