@@ -1,0 +1,78 @@
+version: "2.0"
+
+stories:
+  - story: happy path
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
+
+  - story: sad path 1
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+
+  - story: sad path 2
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: User queries Stocks
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: query_stocks
+      - action: action_super_category_stocks
+
+  - story: User queries Mutual Funds
+    steps:
+      - intent: greet
+      - action: utter_greet
+      - intent: query_mutual_funds
+      - action: action_super_category_mutual_funds
+
+  - story: User queries Holdings
+    steps:
+      - intent: query_holdings
+      - action: action_category_sx_dashboard
+
+  - story: User queries IPO
+    steps:
+      - intent: query_ipo
+      - action: action_category_ipo
+
+  - story: User queries questionTag Intraday Positions
+    steps:
+      - intent: query_questionTag_intraday_positions
+      - action: action_questionTag_intraday_positions
+
+  - story: User queries questionTag Holdings
+    steps:
+      - intent: query_questionTag_holdings
+      - action: action_questionTag_holdings
+
+  - story: User queries questionTag Delivery Positions
+    steps:
+      - intent: query_questionTag_delivery_positions
+      - action: action_questionTag_delivery_positions
+
+  - story: User queries question My issue is not listed here
+    steps:
+      - intent: query-question-my-issue-is-not-listed-here
+      - action: action-question-my-issue-is-not-listed-here
+
+  - story: User queries question What happens if I don't exit my position?
+    steps:
+      - intent: query-question-what-happens-if-i-dont-exit-my-position
+      - action: action-question-what-happens-if-i-dont-exit-my-position

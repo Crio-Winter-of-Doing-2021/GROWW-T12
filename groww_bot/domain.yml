@@ -1,0 +1,59 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - query_stocks
+  - query_mutual_funds
+  - query_holdings
+  - query_ipo
+  - query_questionTag_intraday_positions
+  - query_questionTag_holdings
+  - query_questionTag_delivery_positions
+  - query-question-my-issue-is-not-listed-here
+  - query-question-what-happens-if-i-dont-exit-my-position
+
+responses:
+  utter_greet:
+    - buttons:
+        - payload: Stocks
+          title: Stocks
+        - payload: Mutual Funds
+          title: Mutual Funds
+      text: Hello! I'm the Groww bot. Pick a category that you need help in
+
+  utter_cheer_up:
+    - text: "Here is something to cheer you up:"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "Bye"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+actions:
+  - action_super_category_stocks
+  - action_super_category_mutual_funds
+  - action_category_sx_dashboard
+  - action_category_ipo
+  - action_questionTag_intraday_positions
+  - action_questionTag_holdings
+  - action_questionTag_delivery_positions
+  - action-question-my-issue-is-not-listed-here
+  - action-question-what-happens-if-i-dont-exit-my-position
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
