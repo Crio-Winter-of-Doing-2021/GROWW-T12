@@ -91,6 +91,11 @@ nlu:
       - am I talking to a bot?
       - am I talking to a human?
 
+  - intent: query_my_cart
+    examples: |
+      - my cart
+      - cart
+
   - intent: query_stocks
     examples: |
       - I have a query about Stocks

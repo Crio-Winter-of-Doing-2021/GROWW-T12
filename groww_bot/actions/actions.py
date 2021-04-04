@@ -239,10 +239,16 @@ class ActionQuestionMyIssueIsNotListedHere(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        buttons = []
-        buttons.append( {"title": "RAISE A TICKET","payload": "https://groww.in/user/help/tickets/create"})
-        answer = "You can try searching for your issue. Alternatively you can raise a ticket with us. Our Customer Support champs will help you out in no time!"
-        dispatcher.utter_message(text=answer,buttons=buttons)
+        # buttons = []
+        # buttons.append( {"title": "RAISE A TICKET","payload": "https://groww.in/user/help/tickets/create"})
+        # answer = "You can try searching for your issue. Alternatively you can raise a ticket with us. Our Customer Support champs will help you out in no time!"
+        # dispatcher.utter_message(text=answer,buttons=buttons)
+        df = pd.read_csv('./groww_faqs_utf-8.csv')
+        my_val = 'my-issue-is-not-listed-here'
+        df_scope = df.loc[df['questionId'] == my_val]
+        answer = df_scope.iloc[0]['answerText']
+        # answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \\n\\nHence, we recommend planning the square-off for your open intraday positions well in advance"
+        dispatcher.utter_message(text=answer)
 
         return []
 
@@ -254,10 +260,11 @@ class ActionQuestionWhatHappensIfIdontExitMyPosition(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        df = pd.read_csv('./groww_faqs_utf-8.csv','a')
+        df = pd.read_csv('./groww_faqs_utf-8.csv')
         my_val = 'what-happens-if-i-dont-exit-my-position-1'
         df_scope = df.loc[df['questionId'] == my_val]
         answer = df_scope.iloc[0]['answerText']
+        # answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \\n\\nHence, we recommend planning the square-off for your open intraday positions well in advance"
         dispatcher.utter_message(text=answer)
 
         return []

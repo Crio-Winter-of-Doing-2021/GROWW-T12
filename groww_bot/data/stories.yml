@@ -91,3 +91,8 @@ stories:
     steps:
       - intent: query-question-what-happens-if-i-dont-exit-my-position
       - action: action-question-what-happens-if-i-dont-exit-my-position
+
+  - story: My Cart
+    steps:
+      - intent: query_my_cart
+      - action: utter_cart

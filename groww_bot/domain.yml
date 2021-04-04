@@ -10,6 +10,7 @@ intents:
   - bot_challenge
   - query_stocks
   - query_mutual_funds
+  - query_my_cart
   - query_category_holdings
   - query_category_ipo
   - query_category_my_investments
@@ -45,6 +46,9 @@ responses:
 
   utter_iamabot:
     - text: "I am a bot, powered by Rasa."
+
+  utter_cart:
+    - text: "Welcome to your cart. Proceed by giving your card number. A total sum of all products in your cart will be deducted"
 
 actions:
   - action_super_category_stocks
