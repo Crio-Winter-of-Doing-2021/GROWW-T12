@@ -10,11 +10,14 @@ intents:
   - bot_challenge
   - query_stocks
   - query_mutual_funds
-  - query_holdings
-  - query_ipo
+  - query_category_holdings
+  - query_category_ipo
+  - query_category_my_investments
   - query_questionTag_intraday_positions
   - query_questionTag_holdings
   - query_questionTag_delivery_positions
+  - query_questionTag_before_applying
+  - query_questionTag_applying
   - query-question-my-issue-is-not-listed-here
   - query-question-what-happens-if-i-dont-exit-my-position
 
@@ -53,6 +56,9 @@ actions:
   - action_questionTag_delivery_positions
   - action-question-my-issue-is-not-listed-here
   - action-question-what-happens-if-i-dont-exit-my-position
+  - action_category_my_investments
+  - action_questionTag_before_applying
+  - action_questionTag_applying
 
 session_config:
   session_expiration_time: 60

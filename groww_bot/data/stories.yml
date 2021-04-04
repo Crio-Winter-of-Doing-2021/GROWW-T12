@@ -42,15 +42,20 @@ stories:
       - intent: query_mutual_funds
       - action: action_super_category_mutual_funds
 
-  - story: User queries Holdings
+  - story: User queries category Holdings
     steps:
-      - intent: query_holdings
+      - intent: query_category_holdings
       - action: action_category_sx_dashboard
 
-  - story: User queries IPO
+  - story: User queries category IPO
     steps:
-      - intent: query_ipo
+      - intent: query_category_ipo
       - action: action_category_ipo
+
+  - story: User queries category My Investments
+    steps:
+      - intent: query_category_my_investments
+      - action: action_category_my_investments
 
   - story: User queries questionTag Intraday Positions
     steps:
@@ -66,6 +71,16 @@ stories:
     steps:
       - intent: query_questionTag_delivery_positions
       - action: action_questionTag_delivery_positions
+
+  - story: User queries questionTag Before Applying
+    steps:
+      - intent: query_questionTag_before_applying
+      - action: action_questionTag_before_applying
+
+  - story: User queries questionTag applying
+    steps:
+      - intent: query_questionTag_applying
+      - action: action_questionTag_applying
 
   - story: User queries question My issue is not listed here
     steps:
