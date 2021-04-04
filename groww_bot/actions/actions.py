@@ -28,6 +28,14 @@ import pandas as pd
 #
 #         return []
 
+# def superCategoryCommon(,):
+#     buttons = []
+#     for category in new_list_category:
+#         if category=='DASHBOARD': category='Holdings'
+#         category_val= category
+#         buttons.append( {"title": category,"payload": category})
+
+
 # SUPER CATEGORIES
 class ActionSuperCategoryStocks(Action):
 
@@ -62,9 +70,30 @@ class ActionSuperCategoryMutualFunds(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(text="this will have MF questions")
+        df = pd.read_csv('./groww_faqs_utf-8.csv')
+        super_category = 'Mutual Funds'
+        df_scope = df.loc[df['superCategory'] == super_category]
+        list_category = df_scope.category.unique()
+        new_list_category = {x.replace('MF_', '') for x in list_category}
+
+        buttons = []
+        for category in new_list_category:
+            if category=='DASHBOARD': category='My investments'
+            category_val= category
+            buttons.append( {"title": category,"payload": category})
+
+        dispatcher.utter_message(text="Choose a category",buttons=buttons)
 
         return []
+
+def commonCategory(val):
+    df = pd.read_csv('./groww_faqs_utf-8.csv')
+    df_scope = df.loc[df['category'] == val]
+    list_questionTags = df_scope.questionTags.unique()
+    buttons = []
+    for questionTag in list_questionTags:
+        buttons.append( {"title": questionTag,"payload": questionTag})
+    return buttons
 
 # CATEGORIES
 class ActionCategorySXDashboard(Action):
@@ -99,10 +128,36 @@ class ActionCategoryIPO(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(text="this will have ipo related questions")
+        my_val = 'SX_IPO'
+
+        buttons = commonCategory(my_val)
+        dispatcher.utter_message(text="Please select a sub category",buttons=buttons)
 
         return []
 
+class ActionCategoryMyInvestments(Action):
+
+    def name(self) -> Text:
+        return "action_category_my_investments"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        my_val = 'MF_DASHBOARD'
+
+        buttons = commonCategory(my_val)
+        dispatcher.utter_message(text="Please select a sub category",buttons=buttons)
+
+        return []
+
+def commonQuestionTag(val):
+    df = pd.read_csv('./groww_faqs_utf-8.csv')
+    df_scope = df.loc[df['questionTags'] == val]
+    list_questions = df_scope.questionTitle
+    buttons = []
+    for question in list_questions:
+        buttons.append( {"title": question,"payload": question})
+    return buttons
 
 # QUESTION TAGS
 class ActionQuestionTagIntradayPositions(Action):
@@ -132,7 +187,34 @@ class ActionQuestionTagHoldings(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(text="this will have HOLD related questions")
+        buttons = commonQuestionTag("Holdings")
+        dispatcher.utter_message(text="Choose your question",buttons=buttons)
+
+        return []
+
+class ActionQuestionTagBeforeApplying(Action):
+
+    def name(self) -> Text:
+        return "action_questionTag_before_applying"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        buttons = commonQuestionTag("Before Applying")
+        dispatcher.utter_message(text="Choose your question",buttons=buttons)
+
+        return []
+
+class ActionQuestionTagApplying(Action):
+
+    def name(self) -> Text:
+        return "action_questionTag_applying"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        buttons = commonQuestionTag("Applying")
+        dispatcher.utter_message(text="Choose your question",buttons=buttons)
 
         return []
 
@@ -157,10 +239,16 @@ class ActionQuestionMyIssueIsNotListedHere(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        buttons = []
-        buttons.append( {"title": "RAISE A TICKET","payload": "https://groww.in/user/help/tickets/create"})
-        answer = "You can try searching for your issue. Alternatively you can raise a ticket with us. Our Customer Support champs will help you out in no time!"
-        dispatcher.utter_message(text=answer,buttons=buttons)
+        # buttons = []
+        # buttons.append( {"title": "RAISE A TICKET","payload": "https://groww.in/user/help/tickets/create"})
+        # answer = "You can try searching for your issue. Alternatively you can raise a ticket with us. Our Customer Support champs will help you out in no time!"
+        # dispatcher.utter_message(text=answer,buttons=buttons)
+        df = pd.read_csv('./groww_faqs_utf-8.csv')
+        my_val = 'my-issue-is-not-listed-here'
+        df_scope = df.loc[df['questionId'] == my_val]
+        answer = df_scope.iloc[0]['answerText']
+        # answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \\n\\nHence, we recommend planning the square-off for your open intraday positions well in advance"
+        dispatcher.utter_message(text=answer)
 
         return []
 
@@ -172,7 +260,11 @@ class ActionQuestionWhatHappensIfIdontExitMyPosition(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \n\nHence, we recommend planning the square-off for your open intraday positions well in advance"
+        df = pd.read_csv('./groww_faqs_utf-8.csv')
+        my_val = 'what-happens-if-i-dont-exit-my-position-1'
+        df_scope = df.loc[df['questionId'] == my_val]
+        answer = df_scope.iloc[0]['answerText']
+        # answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \\n\\nHence, we recommend planning the square-off for your open intraday positions well in advance"
         dispatcher.utter_message(text=answer)
 
         return []

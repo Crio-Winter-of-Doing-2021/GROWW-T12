@@ -91,6 +91,11 @@ nlu:
       - am I talking to a bot?
       - am I talking to a human?
 
+  - intent: query_my_cart
+    examples: |
+      - my cart
+      - cart
+
   - intent: query_stocks
     examples: |
       - I have a query about Stocks
@@ -111,7 +116,7 @@ nlu:
       - mutual funds
       - I need some help with Mutual Funds
 
-  - intent: query_holdings
+  - intent: query_category_holdings
     examples: |
       - I have a query about Holdings
       - I would like to know about Holdings
@@ -122,7 +127,7 @@ nlu:
       - I need some help with Holdings
       - SX_DASHBOARD
 
-  - intent: query_ipo
+  - intent: query_category_ipo
     examples: |
       - I have a query about IPO
       - I would like to know about IPO
@@ -132,6 +137,17 @@ nlu:
       - ipo
       - I need some help with IPO
       - SX_IPO
+
+  - intent: query_category_my_investments
+    examples: |
+      - I have a query about My investments
+      - I would like to know about My investments
+      - Can you help me with My investments
+      - Please show faqs on My investments
+      - My investments
+      - My investments
+      - I need some help with My investments
+      - MF_DASHBOARD
 
   - intent: query_questionTag_intraday_positions
     examples: |
@@ -158,6 +174,23 @@ nlu:
       - delivery positions
       - I need some help with Delivery Positions
 
+  - intent: query_questionTag_before_applying
+    examples: |
+      - Before Applying
+      - I have a query about before applying
+      - before applying
+      - I need some help in before applying
+
+  - intent: query_questionTag_applying
+    examples: |
+      - I have a query about Applying
+      - I would like to know about Applying
+      - Can you help me with Applying
+      - Please show faqs on Applying
+      - Applying
+      - applying
+      - I need some help with Applying
+
   - intent: query-question-my-issue-is-not-listed-here
     examples: |
       - My issue is not listed here
@@ -165,8 +198,6 @@ nlu:
       - you didn't resolve my issue
       - I still have a question
       - I'm still facing some problem
-      - I'm not finding the answer
-      - I didn't get a proper solution
 
   - intent: query-question-what-happens-if-i-dont-exit-my-position
     examples: |
