@@ -13,6 +13,8 @@ import usStocksImage from './images/usstocks.png';
 import BotPayloadContext from './BotPayloadContext';
 import Chatbot from './Components/ChatWidget';
 
+import Routes from "./Routes";
+
 function App() {
   const [value, setValue] = useState("/greet");
   const providerValue = useMemo(() => ({ value, setValue }), [value, setValue]);
@@ -21,7 +23,7 @@ function App() {
     <BotPayloadContext.Provider value={providerValue}>
       <div className="App">
         <Header />
-        <Component id='stocks' image={stockImage} title='Stocks'
+        {/* <Component id='stocks' image={stockImage} title='Stocks'
           displayText='You don’t have to pay a single rupee for opening a stocks account or account maintenance.'
           button='Explore Stocks' componentPayload='/query_stocks' />
         <Component id='mutual-funds' image={mutualFundsImage} title='Mutual Funds'
@@ -35,7 +37,8 @@ function App() {
           button='Explore Gold' componentPayload='' />
         <Component id='us-stocks' image={usStocksImage} title='US Stocks'
           displayText='Invest in Apple, Google, Netflix and many more US companies that you love without any brokerage fee.'
-          button='Explore US Stocks' componentPayload='' />
+          button='Explore US Stocks' componentPayload='' /> */}
+        <Routes />
         <Footer />
         <Chatbot />
       </div>
