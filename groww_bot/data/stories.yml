@@ -1,78 +1,49 @@
-version: "2.0"
-
 stories:
-  - story: happy path
+  - story: greet and subscribe
     steps:
       - intent: greet
       - action: utter_greet
-      - intent: mood_great
-      - action: utter_happy
+      - intent: subscribe
+      - action: newsletter_form
+      - active_loop: newsletter_form
 
-  - story: sad path 1
+  - story: are you a bot
     steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
+      - intent: bot_challenge
+      - action: utter_i_am_a_bot
 
-  - story: sad path 2
+  - story: query for superCategory (query)
     steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: deny
-      - action: utter_goodbye
+      - intent: ask_superCategory
+      - action: action_query_superCategory
+      - slot_was_set:
+          - superCategory: "stocks"
 
-  - story: User queries Stocks
+  - story: query for category (query)
     steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: query_stocks
-      - action: action_super_category_stocks
+      - intent: ask_category
+      - action: action_query_category
+      - slot_was_set:
+          - category: "IPO"
 
-  - story: User queries Mutual Funds
+  - story: query for questionTag (query)
     steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: query_mutual_funds
-      - action: action_super_category_mutual_funds
+      - intent: ask_question_tags
+      - action: action_query_question_tags
+      - slot_was_set:
+          - category: "Regulatory Charge"
 
-  - story: User queries Holdings
+  - story: user asks a question (query)
     steps:
-      - intent: query_holdings
-      - action: action_category_sx_dashboard
+      - intent: user_question
+      - action: action_query_question
 
-  - story: User queries IPO
+  - story: admin updates database
     steps:
-      - intent: query_ipo
-      - action: action_category_ipo
+      - intent: update_database
+      - action: action_update_database
 
-  - story: User queries questionTag Intraday Positions
+  - story: My Cart
     steps:
-      - intent: query_questionTag_intraday_positions
-      - action: action_questionTag_intraday_positions
-
-  - story: User queries questionTag Holdings
-    steps:
-      - intent: query_questionTag_holdings
-      - action: action_questionTag_holdings
-
-  - story: User queries questionTag Delivery Positions
-    steps:
-      - intent: query_questionTag_delivery_positions
-      - action: action_questionTag_delivery_positions
-
-  - story: User queries question My issue is not listed here
-    steps:
-      - intent: query-question-my-issue-is-not-listed-here
-      - action: action-question-my-issue-is-not-listed-here
-
-  - story: User queries question What happens if I don't exit my position?
-    steps:
-      - intent: query-question-what-happens-if-i-dont-exit-my-position
-      - action: action-question-what-happens-if-i-dont-exit-my-position
+      - intent: query_my_cart
+      - action: utter_cart
