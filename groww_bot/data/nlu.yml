@@ -1,208 +1,303 @@
 version: "2.0"
-
 nlu:
-  - intent: greet
+  - intent: update_database
     examples: |
-      - hey
-      - hello
-      - hi
-      - hello there
-      - good morning
-      - good evening
-      - moin
-      - hey there
-      - let's go
-      - hey dude
-      - goodmorning
-      - goodevening
-      - good afternoon
-
-  - intent: goodbye
-    examples: |
-      - good afternoon
-      - cu
-      - good by
-      - cee you later
-      - good night
-      - bye
-      - goodbye
-      - have a nice day
-      - see you around
-      - bye bye
-      - see you later
-
-  - intent: affirm
-    examples: |
-      - yes
-      - y
-      - indeed
-      - of course
-      - that sounds good
-      - correct
-
-  - intent: deny
-    examples: |
-      - no
-      - n
-      - never
-      - I don't think so
-      - don't like that
-      - no way
-      - not really
-
-  - intent: mood_great
-    examples: |
-      - perfect
-      - great
-      - amazing
-      - feeling like a king
-      - wonderful
-      - I am feeling very good
-      - I am great
-      - I am amazing
-      - I am going to save the world
-      - super stoked
-      - extremely good
-      - so so perfect
-      - so good
-      - so perfect
-
-  - intent: mood_unhappy
-    examples: |
-      - my day was horrible
-      - I am sad
-      - I don't feel very well
-      - I am disappointed
-      - super sad
-      - I'm so sad
-      - sad
-      - very sad
-      - unhappy
-      - not good
-      - not very good
-      - extremly sad
-      - so saad
-      - so sad
-
-  - intent: bot_challenge
-    examples: |
-      - are you a bot?
-      - are you a human?
-      - am I talking to a bot?
-      - am I talking to a human?
+      - update database
+      - updatedb
+      - update the db
+      - update
 
   - intent: query_my_cart
     examples: |
       - my cart
       - cart
 
-  - intent: query_stocks
+  - intent: greet
     examples: |
-      - I have a query about Stocks
-      - I would like to know about Stocks
-      - Can you help me with stocks
-      - Please show faqs on Stocks
-      - Stocks
-      - stocks
-      - I need some help with Stocks
+      - Hi
+      - Hey!
+      - Hallo
+      - Good day
+      - Good morning
+  - intent: subscribe
+    examples: |
+      - I want to get the newsletter
+      - Can you send me the newsletter?
+      - Can you sign me up for the newsletter?
+      - can you keep me on your mailing list?
+  - intent: inform
+    examples: |
+      - My email is example@example.com
+      - random@example.com
+      - Please send it to anything@example.com
+      - Email is something@example.com
+      - option 1
+  - intent: ask_superCategory
+    examples: |
+      - [US stocks](superCategory)
+      - [us stocks](superCategory)
+      - show questions on [us stocks](superCategory)
+      - [stocks](superCategory)
+      - I've queries on [stocks](superCategory)
+      - can you tell about [us stocks](superCategory)
+      - tell about [USStocks](superCategory)
+      - [Stocks](superCategory)
+      - may i know about [sctoks](superCategory)
+      - can you tell about [Stock](superCategory)
+      - can you help me with [Stocks](superCategory)
+      - hi can you help me with [Stocks](superCategory)
+      - cna oyou tell about [stocks](superCategory)
+      - [mutual funds](superCategory)
+      - [Mutual Funds](superCategory)
+      - i have some questions on [mutual funds](superCategory)
+      - [FDs](superCategory)
+      - [fds](superCategory)
+      - [fixed deposits](superCategory)
+      - questions on [FDs](superCategory)
+      - [Gold](superCategory)
+      - [gold](superCategory)
 
-  - intent: query_mutual_funds
+  - intent: ask_category
     examples: |
-      - I have a query about Mutual Funds
-      - I would like to know about Mutual Funds
-      - Can you help me with Mutual Funds
-      - Please show faqs on Mutual Funds
-      - Mutual Funds
-      - mutual funds
-      - I need some help with Mutual Funds
+      - [IPO](category)
+      - [FAQ](category)
+      - [PRICING charges](category)
+      - [Pricng charges](category)
+      - [Holdings sx dashboad](category)
+      - [Holdings sx_dashboad](category)
+      - [sx_dashboad](category)
+      - [SX_DASHBOARD](category)
+      - [MARGIN](category)
+      - [ORDERS](category)
+      - [ABOUT](category)
+      - [WITHDRAW](category)
+      - [TAXATION](category)
+      - [HOW TO](category)
+      - [my investments](category)
+      - [OTHERS](category)
+      - [SETUP](category)
+      - [FUNding WITHDRAWAL](category)
+      - [COMPLIANCE_TAX](category)
+      - [INVESTING](category)
+      - [BUY](category)
+      - [ABOUT](category)
+      - [STORAGE](category)
+      - [SELL](category)
+      - [PRICING](category)
 
-  - intent: query_category_holdings
+  - intent: ask_question_tags
     examples: |
-      - I have a query about Holdings
-      - I would like to know about Holdings
-      - Can you help me with Holdings
-      - Please show faqs on Holdings
-      - Holdings
-      - holdings
-      - I need some help with Holdings
-      - SX_DASHBOARD
+      - [Before applyings](questionTags)
+      - [DEFAULT](questionTags)	
+      - [Regulatory Charges](questionTags)	
+      - [Holdings](questionTags)
+      - [holdings](questionTags)
+      - [holings](questionTags)	
+      - [Intraday Profit](questionTags)	
+      - [Intraday Positions](questionTags) 
+      - [Margin](questionTags)
+      - [Transaction Charges](questionTags)
+      - [Account Charges](questionTags)
+      - [Delivery Positions](questionTags)
+      - [Bajaj Finance](questionTags)
+      - [Getting Started](questionTags)
+      - [Tax Saver](questionTags)
+      - [Form 15G/15H](questionTags)
+      - [Payment](questionTags)
+      - [About](questionTags)
+      - [Equitas Bank](questionTags)
+      - [Refund](questionTags)
+      - [Eligibility](questionTags)
+      - [Tax Implication](questionTags)
+      - [External Funds](questionTags)
+      - [NFO](questionTags)
+      - [SmartSave](questionTags)
+      - [Groww Funds](questionTags)
+      - [Buy Order](questionTags)
+      - [Augmont](questionTags)
+      - [Account](questionTags)
+      - [Delivery](questionTags)
+      - [Storage](questionTags)
+      - [Insurance](questionTags)
+      - [Sell Order](questionTags)
 
-  - intent: query_category_ipo
+  - intent: bot_challenge
     examples: |
-      - I have a query about IPO
-      - I would like to know about IPO
-      - Can you help me with IPO
-      - Please show faqs on IPO
-      - IPO
-      - ipo
-      - I need some help with IPO
-      - SX_IPO
+      - are you a bot?
+      - is this a real person, I'm speaking tos?
+      - is this a chatbot?
+      - you'are a bot right?
 
-  - intent: query_category_my_investments
+  - intent: out_of_scope
     examples: |
-      - I have a query about My investments
-      - I would like to know about My investments
-      - Can you help me with My investments
-      - Please show faqs on My investments
-      - My investments
-      - My investments
-      - I need some help with My investments
-      - MF_DASHBOARD
+      - game cricket
+      - what is the salary of groww engineers
+      - what is better than groww
+      - who built this bot
+      - i want to order food
+      - i need ideas
+      - i want cold drinks
+      - can you buy me gaming accessories
+      - please declare it a holiday today
 
-  - intent: query_questionTag_intraday_positions
+  - intent: ask_remind_check_cart
     examples: |
-      - I have a query about Intraday Positions
-      - I would like to know about Intraday Positions
-      - Can you help me with Intraday Positions
-      - Please show faqs on Intraday Positions
-      - Intraday Positions
-      - intraday positions
-      - I need some help with Intraday Positions
+      - remind to check cart in 4 seconds
+      - remind me to check cart in 30 seconds
+      - remind to checkout cart in 40 sec
+      - Please, remind me to check cart in 2 min
+      - please remind me to check cart in 5 seconds
+      - I must not forget to checkout cart 10 secons
 
-  - intent: query_questionTag_holdings
+  - intent: user_question
     examples: |
-      - Holdings questionTag
-      - questionTag holdings
-
-  - intent: query_questionTag_delivery_positions
-    examples: |
-      - I have a query about Delivery Positions
-      - I would like to know about Delivery Positions
-      - Can you help me with Delivery Positions
-      - Please show faqs on Delivery Positions
-      - Delivery Positions
-      - delivery positions
-      - I need some help with Delivery Positions
-
-  - intent: query_questionTag_before_applying
-    examples: |
-      - Before Applying
-      - I have a query about before applying
-      - before applying
-      - I need some help in before applying
-
-  - intent: query_questionTag_applying
-    examples: |
-      - I have a query about Applying
-      - I would like to know about Applying
-      - Can you help me with Applying
-      - Please show faqs on Applying
-      - Applying
-      - applying
-      - I need some help with Applying
-
-  - intent: query-question-my-issue-is-not-listed-here
-    examples: |
-      - My issue is not listed here
-      - issue not listed
-      - you didn't resolve my issue
-      - I still have a question
-      - I'm still facing some problem
-
-  - intent: query-question-what-happens-if-i-dont-exit-my-position
-    examples: |
+      - Can I apply for an IPO on multiple platforms?
+      - Can I buy IPO on Groww?
+      - Can I transfer my Demat holdings to my Groww account?
+      - How much GST is charged?
+      - How much does Groww charge for stocks?
+      - How to invest in IPO?
+      - How will off market transactions show up in my holding?
+      - I have not received my profit for the day.
+      - I want to know my demat account details.
+      - Is there any rule for limit price of an order?
+      - My issue is not listed here.
+      - What are DP charges (depository participant charges)?
+      - What are DP charges (depository participant charges)
+      - What are account maintainance charges?
+      - What are account opening charges?
+      - What are intraday charges?
+      - What are intraday square off charges?
+      - What are intraday square-off charges?
+      - What are transaction charges by exchange?
       - What happens if I don't exit my position?
-      - What if I do not exit my position?
-      - What will be the affect of me not exiting my postion?
-      - I did not exit my position, what will happen?
-      - What in case I dont exit the position?
+      - What is SEBI turnover charge?
+      - What is STT?
+      - What is lot size and cutoff price in an IPO?
+      - What is stamp duty?
+      - What is stocks margin used in Groww Balance?
+      - What is stocks margin?
+      - What is the charge for buy order (delivery)?
+      - What is the charge for sell order (delivery)?
+      - What is the difference between realised and unrealised returns?
+      - When will I get the money after selling stocks?
+      - When will I receive my profits for the day?
+      - When will corporate action reflect in my holdings?
+      - Why are some of my shares locked?
+      - Why do I have to verify holdings with TPIN?
+      - Why is my intraday profit amount blocked?
+      - Are there any benefits of renewing Bajaj Finance FD?
+      - Can I import my external fixed deposits into Groww?
+      - Can I register nominee for my FD?
+      - Can I withdraw a tax-saver FD before the maturity date?
+      - Can I withdraw my Bajaj Finance FD through Groww?
+      - Can I withdraw my fixed deposit before maturity?
+      - Can the Bajaj Finance FD be shown for tax exemption?
+      - Do I need a savings account with the bank for opening a fixed deposit?
+      - How do I get the fixed deposit advice/proof?
+      - How do I submit form 15G/H?
+      - How do I track my FD transaction?
+      - How frequently is TDS deducted for Bajaj Finance Limited FD?
+      - How many fixed deposits can I open?
+      - How much time does it take to open a fixed deposit?
+      - How to access to FD investing on Groww?
+      - How to change my bank account details for Bajaj Finance FD?
+      - How to change my nominee in an FD?
+      - How to get a TDS certificate for my fixed deposit?
+      - How to open a fixed deposit using Groww?
+      - How to track the KYC status of FD?
+      - How to withdraw/redeem my Equitas Bank fixed deposit?
+      - How to withdraw/redeem my fixed deposit?
+      - How will I receive Bajaj Finance - Fixed Deposit Receipt?
+      - I have lost my FD certificate/Receipt for Bajaj Finance FD. How to get a new FD certificate?
+      - I have submitted form 15G/H. Will TDS be deducted anyway?
+      - In spite of submitting form 15 G/H, my TDS got deducted for Bajaj Finance FD. Whom should I get in touch with?
+      - My fixed deposit order failed. When will I get the refund?
+      - The bank has changed the interest rates. Will that be applicable to my existing deposit?
+      - What are tax-saver deposits?
+      - What happens to my FD if I go abroad and become an NRI?
+      - What is Form 15G/H for FD?
+      - What is the eligibility for senior citizens fixed deposits?
+      - What is the minimum/maximum amount for opening a fixed deposit?
+      - What is the minimum/maximum tenure for opening a fixed deposit?
+      - What is the penalty of closing FD prematurely for Bajaj Finance Limited?
+      - What is the tax applicable on the Bajaj Finance FD?
+      - What is the tax implication on FD?
+      - Whatâ€™s the penalty for premature withdrawal of Equitas Bank fixed deposit?
+      - When will TDS certificate be provided to the depositor of Bajaj Finance FD?
+      - When will there be no penalty on premature withdrawals for Equitas Bank fixed deposit?
+      - Where can I submit the 15G/H form?
+      - Where will my fixed deposit amount get credited after maturity?
+      - Who is eligible for form 15G/H?
+      - Who is eligible to invest in FDs through Groww?
+      - Why can't I use Groww Balance for FDs?
+      - Why did my fixed deposit investment fail?
+      - How do I import my external mutual fund investments?
+      - My NFO order is not yet completed.
+      - My external SIP was not automatically imported.
+      - My external investments were not imported properly.
+      - My latest SIP installment is not showing up.
+      - My latest external SIP installment is not showing up.
+      - My mutual funds NAV is not updated.
+      - My order is still not completed.
+      - NFO was called off. When do I get my money back?
+      - What is NFO?
+      - What is SmartSave?
+      - Am I legally allowed to invest in foreign markets?
+      - Can I change my bank account later for transactions?
+      - Can I open a new account with a bank which supports online fund transfer, in case my bank does not provide online remittance?
+      - Can I take indexation benefit on transfer of foreign listed securities?
+      - Can I use my existing Indian Groww Balance to fund my US account?
+      - Do I need to have a separate US bank account for investing in US stocks?
+      - How are dividends paid in case of fractional shares?
+      - How do I withdraw money from a US brokerage account to my Indian savings account?
+      - How to add USD in Groww balance?
+      - How will dividends be taxed?
+      - How will the TCS provision work for international stocks?
+      - Is there a limit/restriction on the maximum number of securities that can be purchased from the foreign market for an Indian resident?
+      - Is there any minimum amount to start investing in US stocks?
+      - What are tax implications?
+      - What are the charges involved in USD funding?
+      - What are the charges upon withdrawal?
+      - What are the costs involved for US stocks?
+      - What are the documents and other requirements for opening an international trading account?
+      - What are the exchanges where my trades are executed?
+      - What insurance do I get for my account?
+      - What is ViewTrade Securities?
+      - What is a cash account?
+      - What is fractional investing?
+      - What is the cost that my bank would charge me for doing an LRS?
+      - What is the process to fund with banks that donâ€™t allow online funds transfer?
+      - What is the process to transfer money to US beneficiary?
+      - What is the safety net on my brokerage account? What happens if Groww discontinues service??
+      - Where is the account held? Who is responsible for the custody and clearing?
+      - Which banks allow online remittance?
+      - Who decides the foreign exchange rate?
+      - Who is the fund transfer beneficiary? Is it safe to transfer money to them? 
+      - Who owns the shares?
+      - Will the money reflect in my USD balance instantly?
+      - Can I cancel my Digital Gold purchase?
+      - Can I request delivery of my gold?
+      - Do I need to complete the KYC to buy Digital Gold on Groww?
+      - How can I pay for my Digital Gold purchase?
+      - How can I take possession of my gold?
+      - How do I buy Digital Gold on Groww?
+      - How is Digital Gold provided on Groww?
+      - How is the storage of physical gold taking place?
+      - How long can I store my gold bought via Groww?
+      - How long is the live price valid for completing a transaction?
+      - How often does the live price change?
+      - How soon can I sell the Digital Gold bought on Groww?
+      - Is my gold safe?
+      - Is the gold insured?
+      - Is there any minimum order quantity or price to buy bullion?
+      - What are the charges for gold?
+      - What is Digital Gold?
+      - What is Gold Locker?
+      - What is the advantage of buying Digital Gold?
+      - What is the eligibility criteria for buying Digital Gold on Groww?
+      - What is the live gold price?
+      - What is the maximum amount I can invest in Digital Gold on Groww?
+      - What will happen to my gold if Augmont/Bullion India goes into liquidation?
+      - Where is the money settled when I sell Digital Gold on Groww?
+      - Will I get an invoice for a Digital Gold purchase order?

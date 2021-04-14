@@ -11,260 +11,306 @@ from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-
+import sqlite3
+import random
 import pandas as pd
-#
-#
-# class ActionHelloWorld(Action):
-#
+from fuzzywuzzy import process
+import math
+# import shlex
+import subprocess
+# from mycredentials import apikey
+import datetime
+from rasa_sdk.events import ReminderScheduled
+from dateutil import parser
+
+
+def get_most_matched_cell_info(query, choices, limit=4):
+    results = process.extract(query, choices, limit=limit)
+    return results
+
+
+class ConnectionToDatabase:
+    def create_connection(db_file):
+        """ create a database connection to the SQLite database
+            specified by the db_file
+        :param db_file: database file
+        :return: Connection object or None
+        """
+        conn = None
+        try:
+            conn = sqlite3.connect(db_file)
+        except Error as e:
+            print(e)
+
+        return conn
+
+
+conn = ConnectionToDatabase.create_connection("./database/groww_faqs_db")
+df = pd.read_sql_query(f"select * from groww_faqs", conn)
+
+
+class ActionOnDatabase:
+    def select_category_by_slot(conn, slot_name, slot_value):
+
+        matched_supercategory = get_most_matched_cell_info(
+            slot_value, df.superCategory)[0][0]
+
+        categories = df.loc[df['superCategory'] ==
+                            matched_supercategory, 'category'].unique().tolist()
+        for i, category in enumerate(categories):
+            categories[i] = category.split("_")[-1]
+
+        if categories:
+            if matched_supercategory == "Stocks":
+                categories[categories.index("DASHBOARD")] = "HOLDINGS"
+            if matched_supercategory == "Mutual Funds":
+                categories[categories.index("DASHBOARD")] = "MY INVESTMENTS"
+            if matched_supercategory == "FDs":
+                categories[categories.index("TO")] = "HOW TO"
+                categories[categories.index("ABOUT")] = "ABOUT FDS"
+        return categories
+
+    def select_question_tags_by_slot(conn, slot_name, slot_value):
+        if slot_value == "HOLDINGS":
+            slot_value = "sx_dashboard"
+        matched_category = get_most_matched_cell_info(
+            slot_value, df.category)[0][0]
+
+        questionTags = df.loc[df['category'] ==
+                              matched_category, 'questionTags'].unique().tolist()
+
+        return questionTags
+
+    def select_question_by_questiontag_slot(conn, slot_name, slot_value):
+        matched_question_tag = get_most_matched_cell_info(
+            slot_value, df.questionTags)[0][0]
+
+        questions = df.loc[df['questionTags'] ==
+                           matched_question_tag, 'questionTitle'].unique().tolist()
+
+        return questions
+
+    def get_answertext_for_question(question):
+        matched_question_title = get_most_matched_cell_info(
+            question, df.questionTitle)[0][0]
+
+        answer = df.loc[df['questionTitle'] ==
+                        matched_question_title, 'answerText'].item()
+        print(answer)
+        # print(answer.isna().values[0])
+        # answer.isna().item() == True:
+        if answer == "":
+            answerText = df.loc[df['questionTitle'] ==
+                                matched_question_title, 'answerHtml'].item()
+        else:
+            answerText = df.loc[df['questionTitle'] ==
+                                matched_question_title, 'answerText'].item()
+        print(answerText)
+        return answerText
+
+
+class ActionQuerySuperCategory(Action):
+
+    def name(self) -> Text:
+        return "action_query_superCategory"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        slot_value = tracker.get_slot("superCategory")
+        slot_name = "superCategory"
+        print(f"name: {slot_name} value:{slot_value}")
+        query_result_categories = ActionOnDatabase.select_category_by_slot(
+            conn, slot_name, slot_value)
+
+        buttons = []
+        for category in query_result_categories:
+            payload = category
+            if category == "HOLDINGS":
+                payload = "SX_DASHBOARD"
+            buttons.append({"title": category, "payload": category})
+
+        dispatcher.utter_message(text="Choose a category", buttons=buttons)
+
+        # dispatcher.utter_message(text=str(query_results))
+
+        return []
+
+
+class ActionQueryCategory(Action):
+
+    def name(self) -> Text:
+        return "action_query_category"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        slot_value = tracker.get_slot("category")
+        slot_name = "category"
+        print(f"name: {slot_name} value:{slot_value}")
+
+        query_result_question_tags = ActionOnDatabase.select_question_tags_by_slot(
+            conn, slot_name, slot_value)
+
+        buttons = []
+        for questionTag in query_result_question_tags:
+            buttons.append({"title": questionTag, "payload": questionTag})
+
+        dispatcher.utter_message(text="Pick one among below", buttons=buttons)
+
+        # dispatcher.utter_message(text=str(query_results))
+
+        return []
+
+
+class ActionQueryQuestionTags(Action):
+
+    def name(self) -> Text:
+        return "action_query_question_tags"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        slot_value = tracker.get_slot("questionTags")
+        slot_name = "questionTags"
+        print(f"name: {slot_name} value:{slot_value}")
+
+        query_result_questions = ActionOnDatabase.select_question_by_questiontag_slot(
+            conn, slot_name, slot_value)
+
+        buttons = []
+        for question in query_result_questions:
+            buttons.append({"title": question, "payload": question})
+
+        dispatcher.utter_message(
+            text="Select your question please", buttons=buttons)
+
+        # dispatcher.utter_message(text=str(query_results))
+
+        return []
+
+
+class ActionQueryQuestion(Action):
+
+    def name(self) -> Text:
+        return "action_query_question"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        user_question = str((tracker.latest_message)['text'])
+        print(user_question)
+        answer_text = ActionOnDatabase.get_answertext_for_question(
+            user_question)
+        dispatcher.utter_message(
+            text=answer_text)
+
+        # dispatcher.utter_message(text=str(query_results))
+
+        return []
+
+
+class ActionUpdateDatabase(Action):
+
+    def name(self) -> Text:
+        return "action_update_database"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        print("updating db")
+
+        # cmd = f'''curl -F apikey="{apikey}" -F dbowner="amoghaks" -F dbname="faqsdbtest" https://api.dbhub.io/v1/download --output ./database/faqsdbtest ; fuser -k 5055/tcp ; fuser -k 5005/tcp; sleep 2s; . /home/amogh/.local/share/virtualenvs/rasaproject_2-o3mr33AT/bin/activate ; rasa run -m models --enable-api --cors "*" --debug; sleep 5s ; rasa run actions'''
+        # args = shlex.split(cmd)
+        # process = subprocess.Popen(
+        #     args, shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # stdout, stderr = process.communicate()
+
+        subprocess.call(['sh', './updatedb.sh'])
+        print("db updated")
+
+        dispatcher.utter_message(
+            text=f"""Hi admin, Database updated successfully🙂
+            \n You can continue working""")
+
+        return []
+
+
+# class ActionUpdateDatabaseStatus(Action):
+
 #     def name(self) -> Text:
-#         return "action_hello_world"
-#
+#         return "action_update_database_status"
+
 #     def run(self, dispatcher: CollectingDispatcher,
 #             tracker: Tracker,
 #             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-#
-#         dispatcher.utter_message(text="Hello World!")
-#
+
+#         dispatcher.utter_message(
+#             text=f"""Hi admin, Database updated successfully🙂
+#             \n You can continue working""")
+
 #         return []
 
-# def superCategoryCommon(,):
-#     buttons = []
-#     for category in new_list_category:
-#         if category=='DASHBOARD': category='Holdings'
-#         category_val= category
-#         buttons.append( {"title": category,"payload": category})
-
-
-# SUPER CATEGORIES
-class ActionSuperCategoryStocks(Action):
+class ActionSetReminder(Action):
+    """Schedules a reminder, supplied with the last message's entities."""
 
     def name(self) -> Text:
-        return "action_super_category_stocks"
+        return "action_schedule_reminder"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
 
-        df = pd.read_csv('./groww_faqs_utf-8.csv')
-        super_category = 'Stocks'
-        df_scope = df.loc[df['superCategory'] == super_category]
-        list_category = df_scope.category.unique()
-        new_list_category = {x.replace('SX_', '') for x in list_category}
+        entity_value = tracker.latest_message['entities'][0]['value']
+        entity_text = tracker.latest_message['entities'][0]['text']
+        # print(tracker.latest_message['entities'])
 
-        buttons = []
-        for category in new_list_category:
-            if category=='DASHBOARD': category='Holdings'
-            category_val= category
-            buttons.append( {"title": category,"payload": category})
+        dispatcher.utter_message(f"I will remind you {entity_text}.")
 
-        dispatcher.utter_message(text="Choose a category",buttons=buttons)
+        # date = datetime.datetime.now() + datetime.timedelta(seconds=5)
+        # print(date)
+        # print(entity_value)
+        # print(type(entity_value))
+        # print(type(date))
 
-        return []
+        datetest = parser.parse(entity_value)
+        print(f"processed time : {datetest}")
 
-class ActionSuperCategoryMutualFunds(Action):
+        entities = tracker.latest_message.get("entities")
 
-    def name(self) -> Text:
-        return "action_super_category_mutual_funds"
+        reminder = ReminderScheduled(
+            "EXTERNAL_reminder",
+            trigger_date_time=datetest,
+            entities=entities,
+            name="my_reminder",
+            kill_on_user_message=False,
+        )
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        df = pd.read_csv('./groww_faqs_utf-8.csv')
-        super_category = 'Mutual Funds'
-        df_scope = df.loc[df['superCategory'] == super_category]
-        list_category = df_scope.category.unique()
-        new_list_category = {x.replace('MF_', '') for x in list_category}
+        return [reminder]
 
-        buttons = []
-        for category in new_list_category:
-            if category=='DASHBOARD': category='My investments'
-            category_val= category
-            buttons.append( {"title": category,"payload": category})
 
-        dispatcher.utter_message(text="Choose a category",buttons=buttons)
-
-        return []
-
-def commonCategory(val):
-    df = pd.read_csv('./groww_faqs_utf-8.csv')
-    df_scope = df.loc[df['category'] == val]
-    list_questionTags = df_scope.questionTags.unique()
-    buttons = []
-    for questionTag in list_questionTags:
-        buttons.append( {"title": questionTag,"payload": questionTag})
-    return buttons
-
-# CATEGORIES
-class ActionCategorySXDashboard(Action):
+class ActionReactToReminder(Action):
+    """Reminds the user to checkout the cart."""
 
     def name(self) -> Text:
-        return "action_category_sx_dashboard"
+        return "action_react_to_reminder"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    async def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
 
-        df = pd.read_csv('./groww_faqs_utf-8.csv')
-        my_val = 'SX_DASHBOARD'
-        df_scope = df.loc[df['category'] == my_val]
-        list_questionTags = df_scope.questionTags.unique()
-
-        buttons = []
-        for questionTag in list_questionTags:
-            title = questionTag
-            # as there is both category 'Holdings' & questionTag 'Holdings' in Stocks
-            if questionTag=='Holdings': questionTag='Holdings questionTag'
-            buttons.append( {"title": title,"payload": questionTag})
-        dispatcher.utter_message(text="Please select a sub category",buttons=buttons)
-
-        return []
-
-class ActionCategoryIPO(Action):
-
-    def name(self) -> Text:
-        return "action_category_ipo"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        my_val = 'SX_IPO'
-
-        buttons = commonCategory(my_val)
-        dispatcher.utter_message(text="Please select a sub category",buttons=buttons)
-
-        return []
-
-class ActionCategoryMyInvestments(Action):
-
-    def name(self) -> Text:
-        return "action_category_my_investments"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        my_val = 'MF_DASHBOARD'
-
-        buttons = commonCategory(my_val)
-        dispatcher.utter_message(text="Please select a sub category",buttons=buttons)
-
-        return []
-
-def commonQuestionTag(val):
-    df = pd.read_csv('./groww_faqs_utf-8.csv')
-    df_scope = df.loc[df['questionTags'] == val]
-    list_questions = df_scope.questionTitle
-    buttons = []
-    for question in list_questions:
-        buttons.append( {"title": question,"payload": question})
-    return buttons
-
-# QUESTION TAGS
-class ActionQuestionTagIntradayPositions(Action):
-
-    def name(self) -> Text:
-        return "action_questionTag_intraday_positions"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        df = pd.read_csv('./groww_faqs_utf-8.csv')
-        my_val = 'Intraday Positions'
-        df_scope = df.loc[df['questionTags'] == my_val]
-        list_questions = df_scope.questionTitle
-        buttons = []
-        for question in list_questions:
-            buttons.append( {"title": question,"payload": question})
-        dispatcher.utter_message(text="Choose your question",buttons=buttons)
-
-        return []
-    
-class ActionQuestionTagHoldings(Action):
-
-    def name(self) -> Text:
-        return "action_questionTag_holdings"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        buttons = commonQuestionTag("Holdings")
-        dispatcher.utter_message(text="Choose your question",buttons=buttons)
-
-        return []
-
-class ActionQuestionTagBeforeApplying(Action):
-
-    def name(self) -> Text:
-        return "action_questionTag_before_applying"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        buttons = commonQuestionTag("Before Applying")
-        dispatcher.utter_message(text="Choose your question",buttons=buttons)
-
-        return []
-
-class ActionQuestionTagApplying(Action):
-
-    def name(self) -> Text:
-        return "action_questionTag_applying"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        buttons = commonQuestionTag("Applying")
-        dispatcher.utter_message(text="Choose your question",buttons=buttons)
-
-        return []
-
-class ActionQuestionTagDeliveryPositions(Action):
-
-    def name(self) -> Text:
-        return "action_questionTag_delivery_positions"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(text="this will have DP related questions")
-
-        return []
-
-# Questions
-class ActionQuestionMyIssueIsNotListedHere(Action):
-
-    def name(self) -> Text:
-        return "action-question-my-issue-is-not-listed-here"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # buttons = []
-        # buttons.append( {"title": "RAISE A TICKET","payload": "https://groww.in/user/help/tickets/create"})
-        # answer = "You can try searching for your issue. Alternatively you can raise a ticket with us. Our Customer Support champs will help you out in no time!"
-        # dispatcher.utter_message(text=answer,buttons=buttons)
-        df = pd.read_csv('./groww_faqs_utf-8.csv')
-        my_val = 'my-issue-is-not-listed-here'
-        df_scope = df.loc[df['questionId'] == my_val]
-        answer = df_scope.iloc[0]['answerText']
-        # answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \\n\\nHence, we recommend planning the square-off for your open intraday positions well in advance"
-        dispatcher.utter_message(text=answer)
-
-        return []
-
-class ActionQuestionWhatHappensIfIdontExitMyPosition(Action):
-
-    def name(self) -> Text:
-        return "action-question-what-happens-if-i-dont-exit-my-position"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        df = pd.read_csv('./groww_faqs_utf-8.csv')
-        my_val = 'what-happens-if-i-dont-exit-my-position-1'
-        df_scope = df.loc[df['questionId'] == my_val]
-        answer = df_scope.iloc[0]['answerText']
-        # answer = "In intraday trading, each open position should be squared off by 3:10 PM. If it’s a system square-off, there will be a charge of Rs.50 + GST per position. \\n\\nHence, we recommend planning the square-off for your open intraday positions well in advance"
-        dispatcher.utter_message(text=answer)
+        # name = next(tracker.get_slot("time"), "someone")
+        dispatcher.utter_message(f"Hey, Reminding you to checkout your cart!")
 
         return []
