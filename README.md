@@ -6,8 +6,6 @@ Team ID: GROWW-T12 | Team Members: Amogha KS &amp; Vinod Kumar Wagh
 
 Contextual Chat Bot for Investors
 
-# rasa-project-1
-
 Installation commands
 
     python3 -m venv ./venv
