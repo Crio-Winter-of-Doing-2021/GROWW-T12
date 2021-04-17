@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Link, Redirect } from "react-router-dom";
 
 import Base from "../core/Base";
 import { signin, authenticate, isAuthenticated } from "../auth/helper";
+import BotPayloadContext from '../BotPayloadContext';
 
 const Signin = () => {
+    const { value, setValue } = useContext(BotPayloadContext);
     const [values, setValues] = useState({
         name: "",
         email: "amoghaks10@gmail.com",
@@ -29,6 +31,10 @@ const Signin = () => {
         signin({ email, password })
             .then((data) => {
                 console.log("DATA", data);
+                if (data.user.kyc == "") {
+                    console.log("KYC not done yet");
+                    setValue("user kyc not done yet");
+                }
                 if (data.token) {
                     //let sessionToken = data.token;
                     authenticate(data, () => {

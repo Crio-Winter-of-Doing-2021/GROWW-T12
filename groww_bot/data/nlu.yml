@@ -149,6 +149,13 @@ nlu:
       - please remind me to check cart in 5 seconds
       - I must not forget to checkout cart 10 secons
 
+  - intent: user_kyc_not_done
+    examples: |
+      - user kyc not done yet
+      - kyc of the user isnt done
+      - user kyc is empty
+      - user KYC not done
+
   - intent: user_question
     examples: |
       - Can I apply for an IPO on multiple platforms?

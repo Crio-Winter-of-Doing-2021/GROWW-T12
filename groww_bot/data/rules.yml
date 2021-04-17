@@ -48,3 +48,8 @@ rules:
     steps:
       - intent: EXTERNAL_reminder
       - action: action_react_to_reminder
+
+  - rule: User KYC not done
+    steps:
+      - intent: user_kyc_not_done
+      - action: utter_kyc_not_done
