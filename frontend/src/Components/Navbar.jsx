@@ -20,11 +20,12 @@ function Navbar() {
                 <img src={logo} alt=''/>    
             </a> 
             <ul className='menu'>
-                <li><button onClick= {() => setValue("/query_stocks")}><a href='#stocks'>Stocks</a></button></li>
-                <li><button onClick= {() => setValue("/query_mutual_funds")}><a href='#mutual-funds'>Mutual Funds</a></button></li>
-                <li><a href='#fixed-deposits'>Fixed Deposits</a></li>
-                <li><a href='#gold'>Gold</a></li>
-                <li><a href='#us-stocks'>US Stocks</a></li>
+                <li><button onClick= {() => setValue("stocks")}><a href='#stocks'>Stocks</a></button></li>
+                <li><button onClick= {() => setValue("mutual funds")}><a href='#mutual-funds'>Mutual Funds</a></button></li>
+                <li><button onClick= {() => setValue("fds")}><a href='#fds'>Fixed Deposits</a></button></li>
+                <li><button onClick= {() => setValue("Gold")}><a href='#gold'>Gold</a></button></li>
+                <li><button onClick= {() => setValue("US stocks")}><a href='#us-stocks'>US Stocks</a></button></li>
+                <li><button onClick= {() => setValue("update database")}><a href=''>UPDATE DATABASE</a></button></li>
             </ul>
         </nav>
     )

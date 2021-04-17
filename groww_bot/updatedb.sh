@@ -6,7 +6,7 @@ curl -F apikey=${my_apikey} -F dbowner="amoghaks" -F dbname="groww_faqs_db" http
 
 fuser -k 5055/tcp
 
-. /home/amogh/.local/share/virtualenvs/rasaproject_2-o3mr33AT/bin/activate
+. /home/amogh/.local/share/virtualenvs/GROWW-T12-vuEtGIJx/bin/activate
 
 sleep 1s 
 

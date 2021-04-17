@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+Django = "==3.1"
+django-cors-headers = "*"
+djangorestframework = "*"
+Pillow = "*"
+braintree = "*"
+rasa = "*"
+python-engineio = "==3.13.2"
+fuzzywuzzy = "*"
+python-Levenshtein = "*"
+pandas = "*"
+rasa-x = "*"
+python-socketio = "==4.6.1"
+sanic = "==19.9.0"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

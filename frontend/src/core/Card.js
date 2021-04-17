@@ -20,7 +20,7 @@ const Card = ({
     const { value, setValue } = useContext(BotPayloadContext);
 
     const addToCart = () => {
-        setValue("/query_my_cart")
+        setValue("cart")
         if (isAuthenticated()) {
             addItemToCart(product, () => setRedirect(true));
             console.log("Added to cart");

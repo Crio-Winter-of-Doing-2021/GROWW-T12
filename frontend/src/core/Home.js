@@ -27,7 +27,7 @@ export default function Home() {
     }, []);
 
     return (
-        <Base title="Grow by investing with GROWW" description="">
+        <Base title="Grow by investing through GROWW" description="">
             <h1>Home component</h1>
             <div className="row">
                 {products.map((product, index) => {
