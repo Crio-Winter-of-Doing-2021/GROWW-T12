@@ -4,9 +4,12 @@ import { Link, Redirect } from "react-router-dom";
 import Base from "../core/Base";
 import { signin, authenticate, isAuthenticated } from "../auth/helper";
 import BotPayloadContext from '../BotPayloadContext';
+import UserContext from '../UserContext';
+
 
 const Signin = () => {
     const { value, setValue } = useContext(BotPayloadContext);
+    const { isAdmin, setIsAdmin } = useContext(UserContext);
     const [values, setValues] = useState({
         name: "",
         email: "amoghaks10@gmail.com",
@@ -34,6 +37,11 @@ const Signin = () => {
                 if (data.user.kyc == "") {
                     console.log("KYC not done yet");
                     setValue("user kyc not done yet");
+                }
+                console.log("user", data.user.is_superuser);
+                if (data.user.is_superuser == true) {
+                    console.log("Welcome admin");
+                    setIsAdmin(true)
                 }
                 if (data.token) {
                     //let sessionToken = data.token;

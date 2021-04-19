@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
 // import BotPayloadContext from '../BotPayloadContext';
+import UserContext from '../UserContext';
 import { signout, isAuthenticated } from "../auth/helper";
 
 const currentTab = (history, path) => {
@@ -13,6 +14,7 @@ const currentTab = (history, path) => {
 
 const Menu = ({ history, path }) => {
     // const { value, setValue } = useContext(BotPayloadContext);
+    const { isAdmin, setIsAdmin } = useContext(UserContext);
 
     return (
         <div>
@@ -77,6 +79,7 @@ const Menu = ({ history, path }) => {
                             onClick={() => {
                                 signout(() => {
                                     history.push("/");
+                                    setIsAdmin(false)
                                 });
                             }}
                             className="nav-link text-warning"
