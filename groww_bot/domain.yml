@@ -1,46 +1,54 @@
-version: "2.0"
+version: '2.0'
 config:
   store_entities_as_slots: true
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
-  - greet:
-      use_entities: true
-  - inform:
-      use_entities: true
-  - subscribe:
-      use_entities: true
-  - bot_challenge:
-      use_entities: true
-  - faq:
-      use_entities: true
-  - ask_superCategory:
-      use_entities: true
-  - ask_category:
-      use_entities: true
-  - ask_question_tags:
-      use_entities: true
-  - user_question:
-      use_entities: true
-  - update_database:
-      use_entities: true
-  - ask_remind_check_cart:
-      use_entities: true
-  - EXTERNAL_reminder:
-      use_entities: true
-  - query_my_cart:
-      use_entities: true
-  - out_of_scope:
-      use_entities: true
-  - user_kyc_not_done:
-      use_entities: true
+- greet:
+    use_entities: true
+- inform:
+    use_entities: true
+- subscribe:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- faq:
+    use_entities: true
+- ask_superCategory:
+    use_entities: true
+- ask_category:
+    use_entities: true
+- ask_question_tags:
+    use_entities: true
+- user_question:
+    use_entities: true
+- update_database:
+    use_entities: true
+- ask_remind_check_cart:
+    use_entities: true
+- EXTERNAL_reminder:
+    use_entities: true
+- query_my_cart:
+    use_entities: true
+- out_of_scope:
+    use_entities: true
+- user_kyc_not_done:
+    use_entities: true
+- user_kyc_done:
+    use_entities: true
+- groww_referrals_app:
+    use_entities: true
+- groww_referrals_rewards:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
 entities:
-  - time
-  - number
-  - superCategory
-  - category
-  - questionTags
+- time
+- number
+- superCategory
+- category
+- questionTags
 slots:
   email:
     type: rasa.shared.core.slots.UnfeaturizedSlot
@@ -76,44 +84,58 @@ slots:
     influence_conversation: true
 responses:
   utter_greet:
-    - text: |
-        Hello! I'm groww support bot, how can I help you?
+  - buttons:
+    - payload: Stocks
+      title: Stocks
+    text: Hello! I'm groww support bot, how can I help you?
   utter_ask_email:
-    - text: |
-        What is your email address?
+  - text: |
+      What is your email address?
   utter_i_am_a_bot:
-    - text: |
-        am a bot powered by RASA
+  - text: |
+      am a bot powered by RASA
   utter_subscribed:
-    - text: |
-        Check your inbox at {email} in order to finish subscribing to the newsletter!
-    - text: You're all set! Check your inbox at {email} to confirm your subscription.
+  - text: |
+      Check your inbox at {email} in order to finish subscribing to the newsletter!
+  - text: You're all set! Check your inbox at {email} to confirm your subscription.
   utter_out_of_scope:
-    - text: |
-        Sorry, I can't handle that request.
+  - text: |
+      Sorry, I can't handle that request.
   utter_cart:
-    - text: Welcome to your cart😊 Proceed by providing your card details. A total amount of all products in your cart will be deducted from your card
+  - text: Welcome to your cart😊 Proceed by providing your card details. A total amount of all products in your cart will be deducted from your card
   utter_kyc_not_done:
-    - text: "Hey! Seems like your KYC is not completed"
-      buttons:
-        - title: "How to track the KYC status of FD?"
-          payload: "How to track the KYC status of FD?"
-        - title: "Do I need to complete the KYC to buy Digital Gold on Groww?"
-          payload: "Do I need to complete the KYC to buy Digital Gold on Groww?"
-
+  - buttons:
+    - payload: How to track the KYC status of FD?
+      title: How to track the KYC status of FD?
+    - payload: Do I need to complete the KYC to buy Digital Gold on Groww?
+      title: Do I need to complete the KYC to buy Digital Gold on Groww?
+    text: Hey! Seems like your KYC is not completed
+  utter_kyc_done:
+  - buttons:
+    - payload: Does Groww referrals work on app only?
+      title: Does Groww referrals work on app only?
+    - payload: Am I eligible for Groww referral rewards?
+      title: Am I eligible for Groww referral rewards?
+    text: Hi there! Maybe you want to explore our referral programs
+  utter_groww_referrals_app:
+  - text: Yes, you can refer friends over the app only. If your friend signs up using our website, then your referral won't be successful.
+  utter_groww_referrals_eligibility:
+  - text: To become eligible for Groww referral rewards, Your own Groww account should be fully activated, with at least one registered bank account. Your friend must use your link to download the app and sign up. Your friend must use the app (and not the website) to sign up. Your friend must complete their account activation, and their documents should be verified.
+  utter_please_rephrase:
+  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
 actions:
-  - "..."
-  - utter_greet
-  - utter_subscribed
-  - action_query_superCategory
-  - action_query_category
-  - action_query_question_tags
-  - action_query_question
-  - action_update_database
-  - action_schedule_reminder
-  - action_react_to_reminder
+- '...'
+- utter_greet
+- utter_subscribed
+- action_query_superCategory
+- action_query_category
+- action_query_question_tags
+- action_query_question
+- action_update_database
+- action_schedule_reminder
+- action_react_to_reminder
 forms:
   newsletter_form:
     email:
-      - type: from_text
+    - type: from_text
 e2e_actions: []

@@ -38,6 +38,10 @@ const Signin = () => {
                     console.log("KYC not done yet");
                     setValue("user kyc not done yet");
                 }
+                if (data.user.kyc != "") {
+                    console.log("KYC done");
+                    setValue("user kyc is done");
+                }
                 console.log("user", data.user.is_superuser);
                 if (data.user.is_superuser == true) {
                     console.log("Welcome admin");

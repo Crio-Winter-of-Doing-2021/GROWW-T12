@@ -53,3 +53,23 @@ rules:
     steps:
       - intent: user_kyc_not_done
       - action: utter_kyc_not_done
+
+  - rule: User KYC is done
+    steps:
+      - intent: user_kyc_done
+      - action: utter_kyc_done
+
+  - rule: referrals on app
+    steps:
+      - intent: groww_referrals_app
+      - action: utter_groww_referrals_app
+
+  - rule: referrals rewards
+    steps:
+      - intent: groww_referrals_rewards
+      - action: utter_groww_referrals_eligibility
+
+  - rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+    steps:
+      - intent: nlu_fallback
+      - action: utter_please_rephrase

@@ -1,3 +1,4 @@
+version: "2.0"
 stories:
   - story: greet and subscribe
     steps:
@@ -6,43 +7,36 @@ stories:
       - intent: subscribe
       - action: newsletter_form
       - active_loop: newsletter_form
-
   - story: are you a bot
     steps:
       - intent: bot_challenge
       - action: utter_i_am_a_bot
-
   - story: query for superCategory (query)
     steps:
       - intent: ask_superCategory
       - action: action_query_superCategory
       - slot_was_set:
-          - superCategory: "stocks"
-
+          - superCategory: stocks
   - story: query for category (query)
     steps:
       - intent: ask_category
       - action: action_query_category
       - slot_was_set:
-          - category: "IPO"
-
+          - category: IPO
   - story: query for questionTag (query)
     steps:
       - intent: ask_question_tags
       - action: action_query_question_tags
       - slot_was_set:
-          - category: "Regulatory Charge"
-
+          - category: Regulatory Charge
   - story: user asks a question (query)
     steps:
       - intent: user_question
       - action: action_query_question
-
   - story: admin updates database
     steps:
       - intent: update_database
       - action: action_update_database
-
   - story: My Cart
     steps:
       - intent: query_my_cart

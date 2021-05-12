@@ -41,7 +41,7 @@ function Navbar() {
                 <li><button onClick={() => setValue("US stocks")}><a href='#us-stocks'>US Stocks</a></button></li>
                 {/* <div> */}
                 {isAdmin ?
-                    <li><button onClick={() => setValue("update database")}><a href=''>UPDATE DATABASE</a></button></li>
+                    <li><button onClick={() => setValue("update database")}><a href='#'>UPDATE DATABASE</a></button></li>
                     : null}
                 {/* <button >Show</button>
                     <button onClick={handleHide}>Hide</button>

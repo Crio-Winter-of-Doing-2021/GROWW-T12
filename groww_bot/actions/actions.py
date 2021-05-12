@@ -45,7 +45,7 @@ class ConnectionToDatabase:
         return conn
 
 
-conn = ConnectionToDatabase.create_connection("./database/groww_faqs_db")
+conn = ConnectionToDatabase.create_connection("./database/groww_faqs_db_test")
 df = pd.read_sql_query(f"select * from groww_faqs", conn)
 
 
